@@ -6,7 +6,6 @@ const ASSETS = [
   './play.jpg'
 ];
 
-// Service Worker Kurulumu ve Dosyaların Önbelleğe Alınması
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -15,7 +14,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Eski Önbelleklerin Temizlenmesi
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -30,7 +28,6 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Çevrimdışı Çalışabilme Desteği
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
