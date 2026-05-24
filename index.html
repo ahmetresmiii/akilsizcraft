@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Google Play Store - Minecraft</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Google Play Dark Tema Renkleri */
+        body {
+            background-color: #131314;
+            color: #e3e3e3;
+            font-family: 'Roboto', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        /* Kaydırma çubuğunu gizleme */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Dairesel yükleme çubuğu animasyonu */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen w-full overflow-x-hidden">
+
+    <!-- Mobil Cihaz Çerçevesi -->
+    <div class="relative w-full max-w-[430px] h-[932px] bg-[#131314] flex flex-col justify-between shadow-2xl overflow-hidden rounded-[40px] border-4 border-[#2d2d30]">
+        
+        <!-- Üst Durum Çubuğu (Status Bar) -->
+        <div class="flex justify-between items-center px-6 pt-3 pb-2 text-[13px] font-medium text-white z-10 select-none">
+            <div>12:30</div>
+            <div class="flex items-center gap-1.5">
+                <span class="text-[9px] border border-white px-0.5 rounded font-bold leading-none scale-90">VoLTE</span>
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21l-12-18h24z"/>
+                </svg>
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M2 22h20V2z" opacity="0.3"/>
+                    <path d="M2 22h16V6z"/>
+                </svg>
+                <div class="relative w-5 h-2.5 border border-white/60 rounded-sm flex items-center p-[1px]">
+                    <div class="h-full bg-white rounded-2xs w-[90%]"></div>
+                    <div class="absolute -right-[3px] top-[3px] w-[2px] h-[4px] bg-white/60 rounded-r-xs"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ana İçerik Alanı (Kaydırılabilir) -->
+        <div class="flex-1 overflow-y-auto no-scrollbar px-6 pb-20">
+            
+            <!-- Üst Butonlar (Geri, Puan, İstek Listesi, Menü) -->
+            <div class="flex justify-between items-center py-3">
+                <button class="text-white hover:bg-white/10 p-2 rounded-full transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </button>
+                
+                <div class="flex items-center gap-4">
+                    <!-- Play Points -->
+                    <div class="flex items-center gap-1 bg-[#1e1f22] px-3 py-1.5 rounded-full border border-white/10">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 12l10 10 10-10L12 2z" fill="#34A853"/>
+                            <path d="M12 2L2 12h20L12 2z" fill="#EA4335"/>
+                            <path d="M12 22L2 12h20L12 22z" fill="#4285F4"/>
+                            <path d="M12 2l4 10-4 10-4-10 4-10z" fill="#FBBC05"/>
+                        </svg>
+                        <span class="text-xs font-semibold text-[#a8c7fa]">299</span>
+                    </div>
+                    <button class="text-white hover:bg-white/10 p-2 rounded-full transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v6m-3-3h6" stroke-width="1.5"></path>
+                        </svg>
+                    </button>
+                    <button class="text-white hover:bg-white/10 p-2 rounded-full transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2.9 2-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Oyun Başlık ve Logo Alanı -->
+            <div class="flex gap-5 mt-4 items-start">
+                
+                <!-- play.jpg Logosu ve Dairesel İlerleme Çerçevesi -->
+                <div class="relative flex-shrink-0">
+                    <div id="circleProgressContainer" class="absolute -inset-2 hidden">
+                        <svg class="w-[88px] h-[88px]">
+                            <circle class="text-[#303134]" stroke-width="3.5" stroke="currentColor" fill="transparent" r="40" cx="44" cy="44"/>
+                            <circle id="circleProgress" class="text-[#00a273] progress-ring__circle" stroke-width="3.5" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="44" cy="44"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Dinamik play.jpg Logo Görseli -->
+                    <img src="play.jpg" alt="Minecraft" class="w-[72px] h-[72px] rounded-2xl object-cover relative z-10 border border-white/10 shadow-lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'72\'><rect width=\'100%\' height=\'100%\' fill=\'%235c8e32\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-size=\'28\'>MC</text></svg>'">
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <h1 class="text-[24px] font-semibold text-[#e3e3e3] leading-tight truncate">Minecraft</h1>
+                    <p class="text-[#8ab4f8] text-[14px] font-medium mt-0.5 hover:underline cursor-pointer">Mojang</p>
+                    <p class="text-[#c4c7c5] text-[12px] mt-0.5">Uygulama içi satın alma</p>
+                </div>
+            </div>
+
+            <!-- İstatistik Alanı -->
+            <div class="flex justify-between items-stretch mt-6 mb-7 text-center">
+                <div class="flex-1 flex flex-col items-center justify-center border-r border-white/10">
+                    <div class="flex items-center gap-1 text-[14px] font-semibold text-[#e3e3e3]">
+                        <span>4,4</span>
+                        <svg class="w-3 h-3 text-[#e3e3e3]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex items-center gap-1 text-[11px] text-[#c4c7c5] mt-1">
+                        <span>4 Mn yorum</span>
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col items-center justify-center border-r border-white/10">
+                    <div class="w-5 h-5 bg-[#5c8e32] text-white text-[11px] font-bold flex items-center justify-center rounded-xs">7</div>
+                    <div class="flex items-center gap-1 text-[11px] text-[#c4c7c5] mt-1">
+                        <span>PEGI 7</span>
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col items-center justify-center">
+                    <div class="text-[14px] font-semibold text-[#e3e3e3]">
+                        <svg class="w-4 h-4 mx-auto mb-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                    </div>
+                    <div class="text-[11px] text-[#c4c7c5] mt-1">596 MB</div>
+                </div>
+            </div>
+
+            <!-- Yükleme ve İlerleme Paneli -->
+            <div id="buttonArea" class="w-full">
+                <div id="installButtonContainer" class="flex gap-1 w-full">
+                    <button id="btnYukle" class="flex-1 bg-[#7bf6c4] hover:bg-[#6ee0b2] text-[#003822] font-semibold text-[14px] py-2.5 rounded-l-full transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2">
+                        <span id="btnYukleText">Yükle</span>
+                        <svg id="tickIcon" class="w-5 h-5 hidden transform scale-0 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </button>
+                    <button id="btnDropdown" class="bg-[#7bf6c4] hover:bg-[#6ee0b2] text-[#003822] px-3.5 rounded-r-full transition-all duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Aşırı Yavaş İndirme Arayüzü -->
+                <div id="progressContainer" class="hidden w-full space-y-3 mt-1">
+                    <div class="flex justify-between items-center text-xs text-[#c4c7c5] font-medium">
+                        <div class="flex items-center gap-1.5">
+                            <span id="downloadPercentage" class="text-white font-semibold">0%</span>
+                            <span class="text-white/40">•</span>
+                            <span id="downloadSize">0 B / 596 MB</span>
+                        </div>
+                        <div id="downloadSpeed" class="text-[#7bf6c4] font-semibold animate-pulse">Bağlanıyor...</div>
+                    </div>
+                    
+                    <div class="w-full bg-[#303134] h-[4px] rounded-full overflow-hidden">
+                        <div id="horizontalProgressBar" class="bg-[#00a273] h-full w-[0%] transition-all duration-500"></div>
+                    </div>
+
+                    <div class="flex gap-3 w-full pt-1">
+                        <button id="btnCancel" class="flex-1 border border-[#c4c7c5]/30 hover:bg-white/5 text-[#8ab4f8] font-semibold text-[14px] py-2.5 rounded-full transition active:scale-[0.98]">
+                            İptal
+                        </button>
+                        <button disabled class="flex-1 bg-[#303134] text-white/30 font-semibold text-[14px] py-2.5 rounded-full cursor-not-allowed">
+                            Aç
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-[#c4c7c5] text-[11px] text-center mt-3 leading-relaxed">
+                telefon üzerinde yükle. Daha fazla cihaz mevcut. ChromeOS sürümü ayrı olarak satılır
+            </p>
+
+            <!-- Sadece video.mp4 Barındıran Ekran Görüntüleri Alanı -->
+            <div class="mt-8">
+                <div class="relative w-full rounded-2xl overflow-hidden shadow-xl border border-white/5 bg-[#1b1b1b] aspect-video">
+                    <video id="promoVideo" class="w-full h-full object-cover" controls preload="metadata" poster="play.jpg">
+                        <source src="video.mp4" type="video/mp4">
+                        Tarayıcınız video oynatmayı desteklemiyor.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Bu Oyun Hakkında -->
+            <div class="mt-8 border-t border-white/10 pt-6">
+                <div class="flex justify-between items-center cursor-pointer hover:bg-white/5 py-1 rounded transition">
+                    <h2 class="text-[18px] font-semibold text-[#e3e3e3]">Bu oyun hakkında</h2>
+                    <svg class="w-5 h-5 text-[#c4c7c5]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </div>
+                <p class="text-[#c4c7c5] text-[14px] mt-3 leading-relaxed">
+                    Minecraft, blok yerleştirme ve maceralara atılma oyunudur.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mt-5">
+                <span class="text-xs text-[#8ab4f8] border border-white/10 rounded-full px-4 py-2 bg-[#1e1f22] font-medium">
+                    arcade kategorisindeki ücretli en popüler
+                </span>
+            </div>
+
+        </div>
+
+        <!-- Alt Menü -->
+        <div class="bg-[#1e1f22] border-t border-white/5 py-2 px-3 flex justify-between items-center z-10">
+            <div class="flex-1 flex flex-col items-center justify-center opacity-60 hover:opacity-100 transition cursor-pointer">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                </svg>
+                <span class="text-[10px] font-medium mt-1 text-white">Oyunlar</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center opacity-60 hover:opacity-100 transition cursor-pointer">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                </svg>
+                <span class="text-[10px] font-medium mt-1 text-white">Uygulamalar</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center cursor-pointer">
+                <div class="bg-[#004a77] px-5 py-1 rounded-full flex items-center justify-center transition">
+                    <svg class="w-5 h-5 text-[#c2e7ff]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <span class="text-[10px] font-semibold mt-1 text-[#c2e7ff]">Ara</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center opacity-60 hover:opacity-100 transition cursor-pointer">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span class="text-[10px] font-medium mt-1 text-white">Kitaplar</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center opacity-60 hover:opacity-100 transition cursor-pointer">
+                <div class="w-6 h-6 rounded-full bg-[#3c4043] flex items-center justify-center border border-white/20 text-[10px] font-semibold text-[#8ab4f8]">
+                    S
+                </div>
+                <span class="text-[10px] font-medium mt-1 text-white">Siz</span>
+            </div>
+        </div>
+
+        <!-- Android Geri/Ana Ekran Çubuğu -->
+        <div class="bg-[#1e1f22] pb-2 pt-1 px-12 flex justify-between items-center text-white/50 z-10">
+            <button class="p-2 opacity-60 active:opacity-100">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M4 4h4v16H4zm6 0h4v16h-4zm6 0h4v16h-4z"></path>
+                </svg>
+            </button>
+            <button class="p-2 opacity-60 active:opacity-100">
+                <div class="w-3.5 h-3.5 rounded-xs border-2 border-white/50"></div>
+            </button>
+            <button class="p-2 opacity-60 active:opacity-100">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Tetikleyici Ses ve İndirme Mantığı -->
+    <script>
+        const btnYukle = document.getElementById('btnYukle');
+        const btnYukleText = document.getElementById('btnYukleText');
+        const tickIcon = document.getElementById('tickIcon');
+        const btnDropdown = document.getElementById('btnDropdown');
+        
+        const installButtonContainer = document.getElementById('installButtonContainer');
+        const progressContainer = document.getElementById('progressContainer');
+        const circleProgressContainer = document.getElementById('circleProgressContainer');
+        
+        const circleProgress = document.getElementById('circleProgress');
+        const horizontalProgressBar = document.getElementById('horizontalProgressBar');
+        
+        const downloadPercentage = document.getElementById('downloadPercentage');
+        const downloadSize = document.getElementById('downloadSize');
+        const downloadSpeed = document.getElementById('downloadSpeed');
+        const btnCancel = document.getElementById('btnCancel');
+
+        const radius = circleProgress.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+
+        // Dijital Onay Sesi
+        function playSatisfyingChime() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                const now = ctx.currentTime;
+
+                const osc1 = ctx.createOscillator();
+                const osc2 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                const gain2 = ctx.createGain();
+
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(783.99, now); // G5
+                osc1.frequency.exponentialRampToValueAtTime(1567.98, now + 0.12);
+
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(1174.66, now + 0.04); // D6
+                osc2.frequency.exponentialRampToValueAtTime(2349.32, now + 0.18);
+
+                gain1.gain.setValueAtTime(0.12, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+                gain2.gain.setValueAtTime(0.08, now + 0.04);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+
+                osc1.start(now);
+                osc1.stop(now + 0.38);
+                osc2.start(now + 0.04);
+                osc2.stop(now + 0.42);
+            } catch (e) {
+                console.warn("Ses donanımı başlatılamadı:", e);
+            }
+        }
+
+        // Tıklama Olayı
+        btnYukle.addEventListener('click', () => {
+            playSatisfyingChime();
+
+            // Yeşil Onay Animasyonu
+            btnYukleText.classList.add('hidden');
+            btnYukle.classList.remove('text-[#003822]');
+            btnYukle.classList.add('text-emerald-700');
+            tickIcon.classList.remove('hidden');
+            setTimeout(() => {
+                tickIcon.classList.remove('scale-0');
+                tickIcon.classList.add('scale-110');
+            }, 50);
+
+            btnDropdown.disabled = true;
+            btnDropdown.classList.add('opacity-50');
+
+            // 1 Saniye Gecikmeli İndirme Başlangıcı
+            setTimeout(() => {
+                installButtonContainer.classList.add('hidden');
+                progressContainer.classList.remove('hidden');
+                circleProgressContainer.classList.remove('hidden');
+
+                startExtremelySlowDownload();
+            }, 1100);
+        });
+
+        let bytesDownloaded = 0;
+        const totalBytes = 596 * 1024 * 1024; // 596 MB
+        let downloadTimer = null;
+        let speedTimer = null;
+
+        function updateProgressUI() {
+            const pct = (bytesDownloaded / totalBytes) * 100;
+            const pctFormatted = pct < 0.01 ? pct.toFixed(5) : pct.toFixed(4);
+            
+            downloadPercentage.textContent = `%${pctFormatted}`;
+            
+            let displaySize = '';
+            if (bytesDownloaded < 1024) {
+                displaySize = `${bytesDownloaded} B / 596 MB`;
+            } else if (bytesDownloaded < 1024 * 1024) {
+                displaySize = `${(bytesDownloaded / 1024).toFixed(2)} KB / 596 MB`;
+            } else {
+                displaySize = `${(bytesDownloaded / (1024 * 1024)).toFixed(2)} MB / 596 MB`;
+            }
+            downloadSize.textContent = displaySize;
+
+            horizontalProgressBar.style.width = `${Math.min(pct * 1000, 100)}%`;
+
+            const offset = circumference - (Math.min(pct * 1000, 100) / 100) * circumference;
+            circleProgress.style.strokeDashoffset = offset;
+        }
+
+        function startExtremelySlowDownload() {
+            downloadSpeed.textContent = "Bekleniyor...";
+            bytesDownloaded = 0;
+            updateProgressUI();
+
+            setTimeout(() => {
+                downloadSpeed.textContent = "8 B/sn";
+                
+                // Yarım saniyede bir 4-12 byte ekleme (Mizahi yavaşlık)
+                downloadTimer = setInterval(() => {
+                    const tickBytes = Math.floor(Math.random() * 8) + 4;
+                    bytesDownloaded += tickBytes;
+                    updateProgressUI();
+                }, 500);
+
+                speedTimer = setInterval(() => {
+                    const randomSpeed = Math.floor(Math.random() * 6) + 5; 
+                    downloadSpeed.textContent = `${randomSpeed} B/sn`;
+                }, 4000);
+
+            }, 1500);
+        }
+
+        // İptal Butonu
+        btnCancel.addEventListener('click', () => {
+            clearInterval(downloadTimer);
+            clearInterval(speedTimer);
+
+            progressContainer.classList.add('hidden');
+            circleProgressContainer.classList.add('hidden');
+            installButtonContainer.classList.remove('hidden');
+
+            btnYukleText.classList.remove('hidden');
+            btnYukle.classList.add('text-[#003822]');
+            btnYukle.classList.remove('text-emerald-700');
+            tickIcon.classList.add('hidden');
+            tickIcon.classList.remove('scale-110');
+            tickIcon.classList.add('scale-0');
+
+            btnDropdown.disabled = false;
+            btnDropdown.classList.remove('opacity-50');
+
+            circleProgress.style.strokeDashoffset = circumference;
+        });
+    </script>
+</body>
+</html>
