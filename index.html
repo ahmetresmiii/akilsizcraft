@@ -11,12 +11,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="play.jpg">
+    <link class="rounded-2xl" rel="apple-touch-icon" href="play.jpg">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Google Play Dark Tema Renkleri */
         body {
             background-color: #131314;
             color: #e3e3e3;
@@ -24,7 +23,6 @@
             user-select: none;
             -webkit-user-select: none;
         }
-        /* Kaydırma çubuğunu gizleme */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -32,9 +30,8 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Dairesel yükleme çubuğu animasyonu */
         .progress-ring__circle {
-            transition: stroke-dashoffset 0.35s;
+            transition: stroke-dashoffset 0.1s;
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
         }
@@ -102,8 +99,6 @@
 
             <!-- Oyun Başlık ve Logo Alanı -->
             <div class="flex gap-5 mt-4 items-start">
-                
-                <!-- play.jpg Logosu ve Dairesel İlerleme Çerçevesi -->
                 <div class="relative flex-shrink-0">
                     <div id="circleProgressContainer" class="absolute -inset-2 hidden">
                         <svg class="w-[88px] h-[88px]">
@@ -111,8 +106,6 @@
                             <circle id="circleProgress" class="text-[#00a273] progress-ring__circle" stroke-width="3.5" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="44" cy="44"/>
                         </svg>
                     </div>
-                    
-                    <!-- Dinamik play.jpg Logo Görseli -->
                     <img src="play.jpg" alt="Minecraft" class="w-[72px] h-[72px] rounded-2xl object-cover relative z-10 border border-white/10 shadow-lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'72\'><rect width=\'100%\' height=\'100%\' fill=\'%235c8e32\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-size=\'28\'>MC</text></svg>'">
                 </div>
 
@@ -168,7 +161,7 @@
                     </button>
                 </div>
 
-                <!-- Aşırı Yavaş İndirme Arayüzü -->
+                <!-- İndirme Arayüzü (Hızlandırma Destekli) -->
                 <div id="progressContainer" class="hidden w-full space-y-3 mt-1">
                     <div class="flex justify-between items-center text-xs text-[#c4c7c5] font-medium">
                         <div class="flex items-center gap-1.5">
@@ -180,14 +173,18 @@
                     </div>
                     
                     <div class="w-full bg-[#303134] h-[4px] rounded-full overflow-hidden">
-                        <div id="horizontalProgressBar" class="bg-[#00a273] h-full w-[0%] transition-all duration-500"></div>
+                        <div id="horizontalProgressBar" class="bg-[#00a273] h-full w-[0%] transition-all duration-300"></div>
                     </div>
 
-                    <div class="flex gap-3 w-full pt-1">
-                        <button id="btnCancel" class="flex-1 border border-[#c4c7c5]/30 hover:bg-white/5 text-[#8ab4f8] font-semibold text-[14px] py-2.5 rounded-full transition active:scale-[0.98]">
+                    <!-- Butonlar (İptal, Hızlandır, Aç) -->
+                    <div class="flex gap-2 w-full pt-1">
+                        <button id="btnCancel" class="flex-1 border border-[#c4c7c5]/30 hover:bg-white/5 text-[#8ab4f8] font-semibold text-[13px] py-2.5 rounded-full transition active:scale-[0.98]">
                             İptal
                         </button>
-                        <button disabled class="flex-1 bg-[#303134] text-white/30 font-semibold text-[14px] py-2.5 rounded-full cursor-not-allowed">
+                        <button id="btnSpeedUp" class="flex-1 bg-[#004a77] hover:bg-[#005a91] text-[#c2e7ff] font-semibold text-[13px] py-2.5 rounded-full transition active:scale-[0.98] flex items-center justify-center gap-1">
+                            ⚡ Hızlandır
+                        </button>
+                        <button id="btnOpen" disabled class="flex-1 bg-[#303134] text-white/30 font-semibold text-[13px] py-2.5 rounded-full cursor-not-allowed">
                             Aç
                         </button>
                     </div>
@@ -198,7 +195,7 @@
                 telefon üzerinde yükle. Daha fazla cihaz mevcut. ChromeOS sürümü ayrı olarak satılır
             </p>
 
-            <!-- Sadece video.mp4 Barındıran Ekran Görüntüleri Alanı -->
+            <!-- Video Alanı -->
             <div class="mt-8">
                 <div class="relative w-full rounded-2xl overflow-hidden shadow-xl border border-white/5 bg-[#1b1b1b] aspect-video">
                     <video id="promoVideo" class="w-full h-full object-cover" controls preload="metadata" poster="play.jpg">
@@ -266,7 +263,7 @@
             </div>
         </div>
 
-        <!-- Android Geri/Ana Ekran Çubuğu -->
+        <!-- Android Sistem Çubuğu -->
         <div class="bg-[#1e1f22] pb-2 pt-1 px-12 flex justify-between items-center text-white/50 z-10">
             <button class="p-2 opacity-60 active:opacity-100">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -283,9 +280,38 @@
             </button>
         </div>
 
+        <!-- iOS ve Alternatif Tarayıcılar İçin Şık Manuel Kurulum Rehberi (Bottom Sheet) -->
+        <div id="installBottomSheet" class="absolute bottom-0 left-0 right-0 bg-[#1e1f22] rounded-t-[32px] p-6 pb-8 border-t border-white/10 transform translate-y-full transition-transform duration-300 z-50 shadow-2xl hidden">
+            <div class="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-5"></div>
+            <div class="flex items-center gap-4 mb-5">
+                <img src="play.jpg" class="w-12 h-12 rounded-xl object-cover border border-white/10" alt="Play Store">
+                <div>
+                    <h3 class="font-semibold text-white text-[16px]">Google Play Store</h3>
+                    <p class="text-xs text-[#c4c7c5]">Cihazınıza doğrudan yükleyin</p>
+                </div>
+            </div>
+            <div class="space-y-4 text-sm text-[#c4c7c5] border-t border-white/5 pt-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#004a77] text-[#c2e7ff] flex items-center justify-center font-bold text-xs">1</div>
+                    <p id="iosStepOne">Tarayıcınızın <strong class="text-white">Seçenekler/Paylaş</strong> simgesine dokunun.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#004a77] text-[#c2e7ff] flex items-center justify-center font-bold text-xs">2</div>
+                    <p><strong class="text-white">"Ana Ekrana Ekle"</strong> seçeneğini seçin.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#004a77] text-[#c2e7ff] flex items-center justify-center font-bold text-xs">3</div>
+                    <p>Ana ekrandan Play Store logosuna tıklayarak doğrudan kullanın.</p>
+                </div>
+            </div>
+            <button id="btnCloseBottomSheet" class="w-full mt-6 bg-[#303134] text-white font-semibold py-3 rounded-full hover:bg-white/5 transition">
+                Anladım
+            </button>
+        </div>
+
     </div>
 
-    <!-- Tetikleyici Ses, İndirme ve PWA Kurulum Mantığı -->
+    <!-- PWA Kurulum ve Simülasyon Kontrol Kodları -->
     <script>
         const btnYukle = document.getElementById('btnYukle');
         const btnYukleText = document.getElementById('btnYukleText');
@@ -303,18 +329,44 @@
         const downloadSize = document.getElementById('downloadSize');
         const downloadSpeed = document.getElementById('downloadSpeed');
         const btnCancel = document.getElementById('btnCancel');
+        const btnSpeedUp = document.getElementById('btnSpeedUp');
+
+        const installBottomSheet = document.getElementById('installBottomSheet');
+        const btnCloseBottomSheet = document.getElementById('btnCloseBottomSheet');
+        const iosStepOne = document.getElementById('iosStepOne');
 
         const radius = circleProgress.r.baseVal.value;
         const circumference = radius * 2 * Math.PI;
 
-        // PWA Kurulum Tetikleyicisi
+        // Tarayıcı PWA Kurulum Yakalayıcısı
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Tarayıcının varsayılan pop-up'ını engelle
             e.preventDefault();
-            // Etkinliği sakla
             deferredPrompt = e;
         });
+
+        // Tarayıcıdan Doğrudan İndirme (APK Simülasyonu) Tetikleyici Fonksiyon
+        function triggerDirectBrowserDownload() {
+            try {
+                // Tarayıcıda gerçek bir ".apk" dosyası iniyormuş gibi bir indirme işlemi başlatır.
+                const dummyContent = new Uint8Array([80, 75, 3, 4, 10, 0, 0, 0, 0, 0]); // ZIP/APK header taklidi
+                const blob = new Blob([dummyContent], { type: "application/vnd.android.package-archive" });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "Minecraft_Mojang_v1.20_installer.apk";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                console.error("Doğrudan indirme başarısız oldu:", err);
+            }
+        }
+
+        // Kullanıcı Cihaz Tespiti
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
         // Dijital Onay Sesi
         function playSatisfyingChime() {
@@ -357,22 +409,25 @@
             }
         }
 
-        // Tıklama Olayı
+        // "Yükle" Butonu Tıklaması
         btnYukle.addEventListener('click', () => {
             playSatisfyingChime();
 
-            // Eğer PWA kurulumu destekleniyorsa tarayıcı indirme sormasını tetikle
+            // 1. Tarayıcıdan fiziksel dosya indirmesini zorla başlat!
+            triggerDirectBrowserDownload();
+
+            // 2. Eğer destekleyen tarayıcıysa PWA Kurulum penceresini tetikle
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('Kullanıcı indirmeyi kabul etti.');
-                    }
+                deferredPrompt.userChoice.then(() => {
                     deferredPrompt = null;
                 });
+            } else {
+                // Eğer doğrudan yükleme desteklenmiyorsa (örneğin Safari), özel yükleme sihirbazını göster
+                showPWAInstallGuide();
             }
 
-            // Yeşil Onay Animasyonu
+            // Arayüz görsel güncellemeleri
             btnYukleText.classList.add('hidden');
             btnYukle.classList.remove('text-[#003822]');
             btnYukle.classList.add('text-emerald-700');
@@ -385,7 +440,6 @@
             btnDropdown.disabled = true;
             btnDropdown.classList.add('opacity-50');
 
-            // 1 Saniye Gecikmeli Aşırı Yavaş İndirme Başlangıcı
             setTimeout(() => {
                 installButtonContainer.classList.add('hidden');
                 progressContainer.classList.remove('hidden');
@@ -395,10 +449,31 @@
             }, 1100);
         });
 
+        // Manuel PWA Yükleme Kılavuzunu Göster
+        function showPWAInstallGuide() {
+            if (isIOS) {
+                iosStepOne.innerHTML = 'Safari tarayıcınızın altındaki <strong class="text-white">Paylaş (Yukarı Ok)</strong> simgesine dokunun.';
+            } else {
+                iosStepOne.innerHTML = 'Tarayıcınızın sağ üstündeki <strong class="text-white">Üç Nokta (...)</strong> simgesine dokunun.';
+            }
+            installBottomSheet.classList.remove('hidden');
+            setTimeout(() => {
+                installBottomSheet.classList.remove('translate-y-full');
+            }, 50);
+        }
+
+        btnCloseBottomSheet.addEventListener('click', () => {
+            installBottomSheet.classList.add('translate-y-full');
+            setTimeout(() => {
+                installBottomSheet.classList.add('hidden');
+            }, 300);
+        });
+
         let bytesDownloaded = 0;
         const totalBytes = 596 * 1024 * 1024; // 596 MB
         let downloadTimer = null;
         let speedTimer = null;
+        let isAccelerating = false;
 
         function updateProgressUI() {
             const pct = (bytesDownloaded / totalBytes) * 100;
@@ -416,28 +491,35 @@
             }
             downloadSize.textContent = displaySize;
 
-            horizontalProgressBar.style.width = `${Math.min(pct * 1000, 100)}%`;
+            horizontalProgressBar.style.width = `${Math.min(pct * 10, 100)}%`;
 
-            const offset = circumference - (Math.min(pct * 1000, 100) / 100) * circumference;
+            const offset = circumference - (Math.min(pct * 10, 100) / 100) * circumference;
             circleProgress.style.strokeDashoffset = offset;
         }
 
         function startExtremelySlowDownload() {
+            isAccelerating = false;
+            btnSpeedUp.disabled = false;
+            btnSpeedUp.textContent = "⚡ Hızlandır";
+            btnSpeedUp.className = "flex-1 bg-[#004a77] hover:bg-[#005a91] text-[#c2e7ff] font-semibold text-[13px] py-2.5 rounded-full transition active:scale-[0.98] flex items-center justify-center gap-1";
+            
             downloadSpeed.textContent = "Bekleniyor...";
             bytesDownloaded = 0;
             updateProgressUI();
 
             setTimeout(() => {
+                if (isAccelerating) return;
                 downloadSpeed.textContent = "8 B/sn";
                 
-                // Yarım saniyede bir 4-12 byte ekleme (Mizahi yavaşlık)
                 downloadTimer = setInterval(() => {
+                    if (isAccelerating) return;
                     const tickBytes = Math.floor(Math.random() * 8) + 4;
                     bytesDownloaded += tickBytes;
                     updateProgressUI();
                 }, 500);
 
                 speedTimer = setInterval(() => {
+                    if (isAccelerating) return;
                     const randomSpeed = Math.floor(Math.random() * 6) + 5; 
                     downloadSpeed.textContent = `${randomSpeed} B/sn`;
                 }, 4000);
@@ -445,7 +527,36 @@
             }, 1500);
         }
 
-        // İptal Butonu
+        // HIZLANDIRMA MODÜLÜ (%99.99'da kalacak)
+        btnSpeedUp.addEventListener('click', () => {
+            if (isAccelerating) return;
+            isAccelerating = true;
+            
+            clearInterval(downloadTimer);
+            clearInterval(speedTimer);
+
+            btnSpeedUp.disabled = true;
+            btnSpeedUp.textContent = "⚡ Hızlandırıldı";
+            btnSpeedUp.className = "flex-1 bg-[#303134] text-white/30 font-semibold text-[13px] py-2.5 rounded-full cursor-not-allowed flex items-center justify-center gap-1";
+
+            playSatisfyingChime();
+            downloadSpeed.textContent = "85.4 MB/sn";
+
+            const fastInterval = setInterval(() => {
+                const chunk = (Math.floor(Math.random() * 7) + 8) * 1024 * 1024;
+                bytesDownloaded += chunk;
+
+                const targetLimit = Math.floor(totalBytes * 0.09999); 
+
+                if (bytesDownloaded >= targetLimit) {
+                    bytesDownloaded = targetLimit;
+                    clearInterval(fastInterval);
+                    downloadSpeed.textContent = "0 B/sn";
+                }
+                updateProgressUI();
+            }, 50);
+        });
+
         btnCancel.addEventListener('click', () => {
             clearInterval(downloadTimer);
             clearInterval(speedTimer);
@@ -471,8 +582,8 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker aktif edildi.'))
-                    .catch(err => console.error('Service Worker hatası:', err));
+                    .then(() => console.log('Service Worker aktif.'))
+                    .catch(err => console.error(err));
             });
         }
     </script>
