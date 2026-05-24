@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Google Play Store - Minecraft</title>
+    
+    <!-- PWA Linkleri ve Meta Etiketleri -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#131314">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="play.jpg">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -276,7 +285,7 @@
 
     </div>
 
-    <!-- Tetikleyici Ses ve İndirme Mantığı -->
+    <!-- Tetikleyici Ses, İndirme ve PWA Kurulum Mantığı -->
     <script>
         const btnYukle = document.getElementById('btnYukle');
         const btnYukleText = document.getElementById('btnYukleText');
@@ -297,6 +306,15 @@
 
         const radius = circleProgress.r.baseVal.value;
         const circumference = radius * 2 * Math.PI;
+
+        // PWA Kurulum Tetikleyicisi
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Tarayıcının varsayılan pop-up'ını engelle
+            e.preventDefault();
+            // Etkinliği sakla
+            deferredPrompt = e;
+        });
 
         // Dijital Onay Sesi
         function playSatisfyingChime() {
@@ -343,6 +361,17 @@
         btnYukle.addEventListener('click', () => {
             playSatisfyingChime();
 
+            // Eğer PWA kurulumu destekleniyorsa tarayıcı indirme sormasını tetikle
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Kullanıcı indirmeyi kabul etti.');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+
             // Yeşil Onay Animasyonu
             btnYukleText.classList.add('hidden');
             btnYukle.classList.remove('text-[#003822]');
@@ -356,7 +385,7 @@
             btnDropdown.disabled = true;
             btnDropdown.classList.add('opacity-50');
 
-            // 1 Saniye Gecikmeli İndirme Başlangıcı
+            // 1 Saniye Gecikmeli Aşırı Yavaş İndirme Başlangıcı
             setTimeout(() => {
                 installButtonContainer.classList.add('hidden');
                 progressContainer.classList.remove('hidden');
@@ -437,6 +466,15 @@
 
             circleProgress.style.strokeDashoffset = circumference;
         });
+
+        // Service Worker Kaydı
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker aktif edildi.'))
+                    .catch(err => console.error('Service Worker hatası:', err));
+            });
+        }
     </script>
 </body>
 </html>
